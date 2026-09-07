@@ -195,14 +195,31 @@
     });
   });
 
-  // Floating header on scroll
+  // Floating header on scroll (hysteresis to avoid jitter, rAF-throttled)
   const header = document.getElementById('siteHeader');
   if (header) {
-    const threshold = 40;
-    const onScroll = () => {
-      header.classList.toggle('is-floating', window.scrollY > threshold);
+    const enterAt = 60;
+    const leaveAt = 20;
+    let ticking = false;
+    let floating = false;
+    const update = () => {
+      const y = window.scrollY;
+      if (!floating && y > enterAt) {
+        floating = true;
+        header.classList.add('is-floating');
+      } else if (floating && y < leaveAt) {
+        floating = false;
+        header.classList.remove('is-floating');
+      }
+      ticking = false;
     };
-    onScroll();
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 })();
