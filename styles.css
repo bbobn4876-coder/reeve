@@ -102,46 +102,6 @@ a { color: inherit; text-decoration: none; }
   height: 62px;
   gap: 20px;
 }
-/* CTA label cross-fade — keep the button geometry, swap label in place */
-.header-cta {
-  position: relative;
-  display: inline-grid;
-  place-items: center;
-  overflow: hidden;
-}
-.header-cta .cta-label {
-  grid-area: 1 / 1;
-  display: inline-block;
-  transition:
-    opacity 0.4s var(--ease-smooth),
-    transform 0.5s var(--ease-out),
-    filter 0.4s var(--ease-smooth);
-  will-change: opacity, transform;
-}
-.header-cta .cta-label--default {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-  transition-delay: 0.05s;
-}
-.header-cta .cta-label--floating {
-  opacity: 0;
-  transform: translateY(8px);
-  filter: blur(4px);
-  pointer-events: none;
-}
-.site-header.is-floating .header-cta .cta-label--default {
-  opacity: 0;
-  transform: translateY(-8px);
-  filter: blur(4px);
-  transition-delay: 0s;
-}
-.site-header.is-floating .header-cta .cta-label--floating {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-  transition-delay: 0.1s;
-}
 
 /* Logo text cross-fade + slide + blur */
 .logo-text {
