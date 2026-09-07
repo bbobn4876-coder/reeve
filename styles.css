@@ -331,19 +331,19 @@ body { transition: padding-top 0.4s ease; }
 
 .hero-title {
   font-size: clamp(52px, 7vw, 104px);
-  line-height: 1.12;
+  line-height: 0.98;
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 0 0 28px;
   max-width: 14ch;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 0.15em 0.05em;
+  gap: 0;
+  padding: 0.15em 0.05em 0.05em;
 }
 .reveal-line {
   display: block;
-  padding: 0.12em 0.06em;
+  padding: 0.02em 0.06em 0.06em;
   overflow: visible;
 }
 .reveal-word {
