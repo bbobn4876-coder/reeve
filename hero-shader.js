@@ -20,8 +20,8 @@
     { r: 90,  g: 60,  b: 200 },
   ];
 
-  const blobs = palette.map((c, i) => makeBlob(c, i, 0.25));
-  const wireBlobs = wirePalette.map((c, i) => makeBlob(c, i + 10, 0.15));
+  const blobs = palette.map((c, i) => makeBlob(c, i, 0.9));
+  const wireBlobs = wirePalette.map((c, i) => makeBlob(c, i + 10, 0.55));
 
   function makeBlob(color, seed, speed) {
     const rand = mulberry32(seed * 9973 + 1);
@@ -30,10 +30,10 @@
       speed: speed * (0.7 + rand() * 0.6),
       ax: 0.2 + rand() * 0.6,
       ay: 0.2 + rand() * 0.6,
-      rx: 0.15 + rand() * 0.25,
-      ry: 0.15 + rand() * 0.25,
+      rx: 0.25 + rand() * 0.35,
+      ry: 0.25 + rand() * 0.35,
       phase: rand() * Math.PI * 2,
-      rSize: 0.35 + rand() * 0.35,
+      rSize: 0.4 + rand() * 0.4,
     };
   }
 
@@ -111,8 +111,8 @@
 
   function frame(now) {
     const t = (now - start) / 1000;
-    drawFilled(t * 0.25);
-    drawWire(t * 0.15);
+    drawFilled(t);
+    drawWire(t * 0.75);
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
@@ -127,6 +127,18 @@
       s.textContent = ch === ' ' ? ' ' : ch;
       s.style.animationDelay = (li * 0.35 + i * 0.03) + 's';
       line.appendChild(s);
+    });
+  });
+
+  // Accordions (one open at a time per group)
+  document.querySelectorAll('[data-accordion]').forEach((group) => {
+    const items = group.querySelectorAll('[data-acc]');
+    items.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const willOpen = !btn.classList.contains('is-open');
+        items.forEach((i) => i.classList.remove('is-open'));
+        if (willOpen) btn.classList.add('is-open');
+      });
     });
   });
 })();
