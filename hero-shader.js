@@ -141,4 +141,40 @@
       });
     });
   });
+
+  // Custom select dropdowns
+  document.querySelectorAll('[data-select]').forEach((sel) => {
+    const toggle = sel.querySelector('.select-toggle');
+    const value = sel.querySelector('.select-value');
+    const hidden = sel.querySelector('input[type="hidden"]');
+    const options = sel.querySelectorAll('.select-menu li');
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = sel.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    options.forEach((opt) => {
+      opt.addEventListener('click', () => {
+        options.forEach((o) => o.classList.remove('is-selected'));
+        opt.classList.add('is-selected');
+        const v = opt.dataset.value || opt.textContent || '';
+        value.textContent = v;
+        if (hidden) hidden.value = v;
+        sel.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('[data-select].is-open').forEach((sel) => {
+      if (!sel.contains(e.target)) {
+        sel.classList.remove('is-open');
+        const tgl = sel.querySelector('.select-toggle');
+        if (tgl) tgl.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
 })();

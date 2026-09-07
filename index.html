@@ -16,7 +16,9 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="logo" href="#">
-      <span class="logo-mark"></span>
+      <span class="logo-mark">
+        <img src="logo/logo.svg" alt="" onerror="this.remove()" />
+      </span>
       <span class="logo-text"><b>REEVE</b> agency</span>
     </a>
     <nav class="nav">
@@ -318,8 +320,6 @@
   </div>
 </div>
 
-<script src="hero-shader.js"></script>
-
 <!-- ABOUT -->
 <section id="about" class="about">
   <div class="container about-grid">
@@ -395,15 +395,22 @@
         <span>Company</span>
         <input type="text" placeholder="Brand or operator" />
       </label>
-      <label>
-        <span>Budget</span>
-        <select>
-          <option>Under $10k / month</option>
-          <option>$10k – $50k / month</option>
-          <option>$50k – $150k / month</option>
-          <option>$150k+ / month</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Budget</span>
+        <div class="select" data-select>
+          <button type="button" class="select-toggle" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-value">Under $10k / month</span>
+            <span class="select-caret" aria-hidden="true"></span>
+          </button>
+          <input type="hidden" name="budget" value="Under $10k / month" />
+          <ul class="select-menu" role="listbox">
+            <li role="option" data-value="Under $10k / month" class="is-selected">Under $10k / month</li>
+            <li role="option" data-value="$10k – $50k / month">$10k – $50k / month</li>
+            <li role="option" data-value="$50k – $150k / month">$50k – $150k / month</li>
+            <li role="option" data-value="$150k+ / month">$150k+ / month</li>
+          </ul>
+        </div>
+      </div>
       <label class="full">
         <span>Tell us about the campaign</span>
         <textarea rows="4" placeholder="Markets, product, timing, anything you want us to know."></textarea>
@@ -418,7 +425,9 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <a class="logo" href="#">
-        <span class="logo-mark"></span>
+        <span class="logo-mark">
+          <img src="logo/logo.svg" alt="" onerror="this.remove()" />
+        </span>
         <span class="logo-text"><b>REEVE</b> agency</span>
       </a>
       <p>Influencer marketing and media buying, built for iGaming.</p>
@@ -450,5 +459,6 @@
   </div>
 </footer>
 
+<script src="hero-shader.js"></script>
 </body>
 </html>
