@@ -133,6 +133,14 @@ body.menu-open .burger span:nth-child(3) { top: 19px; transform: rotate(-45deg);
   gap: 20px;
 }
 
+/* Header CTA — trimmer glow than the in-page primary buttons */
+.header-cta {
+  box-shadow: 0 4px 14px -6px rgba(124,92,255,0.4);
+}
+.header-cta:hover {
+  box-shadow: 0 6px 18px -6px rgba(124,92,255,0.55);
+}
+
 /* Logo text cross-fade + slide + blur */
 .logo-text {
   display: inline-block;
