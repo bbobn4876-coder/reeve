@@ -178,6 +178,23 @@
     });
   });
 
+  // Variable-font hover on nav links (stagger from center)
+  document.querySelectorAll('.nav-link').forEach((link) => {
+    const text = link.textContent || '';
+    link.textContent = '';
+    const chars = [...text];
+    const center = (chars.length - 1) / 2;
+    const step = 30; // ms per unit distance
+    chars.forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'vf-char';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      const dist = Math.abs(i - center);
+      span.style.setProperty('--vf-delay', (dist * step).toFixed(0) + 'ms');
+      link.appendChild(span);
+    });
+  });
+
   // Floating header on scroll
   const header = document.getElementById('siteHeader');
   if (header) {
