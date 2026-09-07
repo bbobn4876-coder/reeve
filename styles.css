@@ -343,12 +343,14 @@ body { transition: padding-top 0.4s ease; }
 }
 .reveal-line {
   display: block;
-  padding: 0.02em 0.06em 0.06em;
+  padding: 0.02em 0.06em 0.2em;
   overflow: visible;
+  line-height: 1.15;
 }
 .reveal-word {
   display: inline-block;
   white-space: nowrap;
+  line-height: 1.15;
 }
 .reveal-space {
   display: inline-block;
