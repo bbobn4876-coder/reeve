@@ -15,6 +15,9 @@
 
 <header class="site-header" id="siteHeader">
   <div class="container header-inner">
+    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
     <a class="logo" href="#">
       <span class="logo-mark">
         <img src="logo/logo.svg" alt="" onerror="this.remove()" />
@@ -30,6 +33,16 @@
     <a href="#contact" class="btn btn-primary header-cta">Start a campaign</a>
   </div>
 </header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a class="mobile-link" href="#services">Services</a>
+    <a class="mobile-link" href="#sectors">Sectors</a>
+    <a class="mobile-link" href="#process">Process</a>
+    <a class="mobile-link" href="#about">About</a>
+    <a href="#contact" class="btn btn-primary mobile-cta">Start a campaign</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -428,16 +441,89 @@
       </div>
       <div>
         <div class="footer-title">Legal</div>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+        <a href="#" data-modal="privacy">Privacy</a>
+        <a href="#" data-modal="terms">Terms</a>
+        <a href="#" data-modal="cookies">Cookie Policy</a>
       </div>
     </div>
   </div>
   <div class="container footer-bottom">
     <span>© 2026 Reeve Agency. All rights reserved.</span>
-    <span>Built for operators who like their numbers on the table.</span>
   </div>
 </footer>
+
+<!-- Legal modals -->
+<div class="modal" id="modal-privacy" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
+    <div class="modal-eyebrow">// LEGAL</div>
+    <h2 id="modal-privacy-title" class="modal-title">Privacy Policy</h2>
+    <p class="modal-updated">Last updated: 07 September 2026</p>
+    <div class="modal-body">
+      <p>Reeve Agency ("we", "us", "our") respects your privacy. This policy explains what personal data we collect when you use reeve.agency, how we use it, and the rights you have over it.</p>
+      <h3>Data we collect</h3>
+      <ul>
+        <li>Contact details you submit through the "Start a campaign" form (name, email, company, budget range, campaign notes).</li>
+        <li>Basic technical data (IP, browser, referrer, timestamps) captured by our hosting and analytics.</li>
+      </ul>
+      <h3>How we use it</h3>
+      <ul>
+        <li>To reply to your brief and prepare a proposal.</li>
+        <li>To send campaign updates and reports if we start working together.</li>
+        <li>To improve the site and understand which content is useful.</li>
+      </ul>
+      <h3>Retention and sharing</h3>
+      <p>We keep enquiry data for up to 24 months, then delete it if we haven't started work together. We do not sell your data. We share it only with vetted subprocessors that help us run the business (email, hosting, analytics).</p>
+      <h3>Your rights</h3>
+      <p>You can request access, correction or deletion of your data at any time by writing to <a href="mailto:hello@reeve.agency">hello@reeve.agency</a>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-terms" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-terms-title">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
+    <div class="modal-eyebrow">// LEGAL</div>
+    <h2 id="modal-terms-title" class="modal-title">Terms of Use</h2>
+    <p class="modal-updated">Last updated: 07 September 2026</p>
+    <div class="modal-body">
+      <p>By using reeve.agency you agree to these terms. If you don't, please leave the site.</p>
+      <h3>Site content</h3>
+      <p>All content on this site — copy, visuals, code, brand assets — belongs to Reeve Agency or the parties we license from. You may not copy, redistribute or resell it without written permission.</p>
+      <h3>Campaign engagements</h3>
+      <p>Nothing on this site is a contract. Any paid engagement between Reeve Agency and a client is governed by a signed statement of work that names the scope, deliverables, timing and fees.</p>
+      <h3>Liability</h3>
+      <p>The site is provided "as is". We work hard to keep it accurate but do not warrant that the information here is complete or error-free, and we are not liable for indirect losses arising from its use.</p>
+      <h3>Governing law</h3>
+      <p>These terms are governed by the laws of England &amp; Wales. Disputes will be resolved in the courts of London.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-cookies" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-cookies-title">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-panel" role="document">
+    <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
+    <div class="modal-eyebrow">// LEGAL</div>
+    <h2 id="modal-cookies-title" class="modal-title">Cookie Policy</h2>
+    <p class="modal-updated">Last updated: 07 September 2026</p>
+    <div class="modal-body">
+      <p>Cookies are small text files a site can store in your browser. We use them lightly, and only for reasons we can explain.</p>
+      <h3>What we use</h3>
+      <ul>
+        <li><strong>Strictly necessary</strong> — keep the site working (session, security, form state). Always on.</li>
+        <li><strong>Analytics</strong> — anonymous, aggregated stats about which pages get read and which don't. Off by default in jurisdictions where consent is required.</li>
+        <li><strong>Marketing</strong> — only if we run a specific paid campaign and you land through it. We tell you before we set them.</li>
+      </ul>
+      <h3>Managing cookies</h3>
+      <p>You can clear or block cookies through your browser settings. Doing so may disable parts of the site (e.g. remembered form input).</p>
+      <h3>Third parties</h3>
+      <p>Some cookies are set by our subprocessors (hosting, analytics). Their policies apply to those cookies. Contact us at <a href="mailto:hello@reeve.agency">hello@reeve.agency</a> if you want the current list.</p>
+    </div>
+  </div>
+</div>
 
 <script src="hero-shader.js"></script>
 </body>
