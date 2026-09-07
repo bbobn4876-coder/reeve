@@ -80,8 +80,8 @@
       const r = Math.min(W, H) * b.rSize * (1 + Math.sin(t * b.speed * 1.3) * 0.15);
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
       const c = b.color;
-      g.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.55)`);
-      g.addColorStop(0.4, `rgba(${c.r},${c.g},${c.b},0.18)`);
+      g.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.35)`);
+      g.addColorStop(0.45, `rgba(${c.r},${c.g},${c.b},0.10)`);
       g.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
