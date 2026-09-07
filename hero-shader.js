@@ -177,4 +177,15 @@
       }
     });
   });
+
+  // Floating header on scroll
+  const header = document.getElementById('siteHeader');
+  if (header) {
+    const threshold = 40;
+    const onScroll = () => {
+      header.classList.toggle('is-floating', window.scrollY > threshold);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 })();
