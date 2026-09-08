@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /config.js
+Disallow: /config.example.js
+
+Sitemap: https://reeve.agency/sitemap.xml

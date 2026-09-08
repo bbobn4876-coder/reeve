@@ -151,8 +151,14 @@
     items.forEach((btn) => {
       btn.addEventListener('click', () => {
         const willOpen = !btn.classList.contains('is-open');
-        items.forEach((i) => i.classList.remove('is-open'));
-        if (willOpen) btn.classList.add('is-open');
+        items.forEach((i) => {
+          i.classList.remove('is-open');
+          i.setAttribute('aria-expanded', 'false');
+        });
+        if (willOpen) {
+          btn.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
     });
   });

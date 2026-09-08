@@ -1,0 +1,21 @@
+{
+  "name": "Reeve Agency",
+  "short_name": "Reeve",
+  "description": "Influencer marketing and media buying for iGaming — casino, sports betting, crypto, streaming.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#06060a",
+  "theme_color": "#06060a",
+  "lang": "en",
+  "categories": ["business", "marketing"],
+  "icons": [
+    {
+      "src": "logo/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
