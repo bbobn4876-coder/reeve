@@ -409,6 +409,7 @@ body { transition: padding-top 0.4s ease; }
 .hero-ctas {
   display: flex;
   gap: 16px;
+  margin-top: 44px;
   margin-bottom: 56px;
   flex-wrap: wrap;
   justify-content: center;
