@@ -1190,6 +1190,40 @@ body.menu-open { overflow: hidden; }
 .modal-body ul li { color: var(--muted-2); margin-bottom: 6px; }
 .modal-body a { color: var(--violet-soft); text-decoration: underline; text-underline-offset: 3px; }
 
+/* Success modal (brief sent) */
+.modal-panel--sent {
+  max-width: 460px;
+  text-align: center;
+  padding: 44px 32px 32px;
+}
+.modal-sent-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  box-shadow: 0 12px 40px -8px rgba(124,92,255,0.55);
+  animation: sentPop 0.5s var(--ease-out, cubic-bezier(.16,1,.3,1)) both;
+}
+@keyframes sentPop {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.modal-sent-body {
+  color: var(--muted-2);
+  font-size: 15.5px;
+  line-height: 1.65;
+  margin: 4px 0 26px;
+}
+.modal-sent-cta {
+  width: 100%;
+  justify-content: center;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .hero { padding-top: 20px; }

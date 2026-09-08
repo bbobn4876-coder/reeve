@@ -512,8 +512,8 @@
     </div>
     <form class="contact-form" id="contactForm" novalidate>
       <label>
-        <span>Your name</span>
-        <input type="text" name="name" required placeholder="Alex Morgan" />
+        <span>Telegram</span>
+        <input type="text" name="telegram" id="telegramInput" required placeholder="@yourhandle" autocomplete="off" inputmode="text" />
       </label>
       <label>
         <span>Work email</span>
@@ -544,7 +544,6 @@
         <textarea name="message" rows="4" placeholder="Markets, product, timing, anything you want us to know."></textarea>
       </label>
       <button type="submit" class="btn btn-primary">Send the brief</button>
-      <div class="form-thanks" hidden>Thanks — we'll be in touch within one business day.</div>
       <div class="form-error" hidden>Something went wrong. Please try again or email us directly.</div>
     </form>
   </div>
@@ -588,6 +587,24 @@
     <span>© 2026 Reeve Agency. All rights reserved.</span>
   </div>
 </footer>
+
+<!-- Success modal for the contact form -->
+<div class="modal" id="modal-sent" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-sent-title">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-panel modal-panel--sent" role="document">
+    <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
+    <div class="modal-sent-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <div class="modal-eyebrow">// SENT</div>
+    <h2 id="modal-sent-title" class="modal-title">Brief received</h2>
+    <p class="modal-sent-body">
+      Thanks — your brief is with our team.<br />
+      We'll reach out on Telegram within one business day.
+    </p>
+    <button type="button" class="btn btn-primary modal-sent-cta" data-modal-close>Got it</button>
+  </div>
+</div>
 
 <!-- Legal modals -->
 <div class="modal" id="modal-privacy" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title">

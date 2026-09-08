@@ -282,15 +282,35 @@
 
   const form = document.getElementById('contactForm');
   if (form) {
-    const thanks = form.querySelector('.form-thanks');
     const error = form.querySelector('.form-error');
     const button = form.querySelector('button[type="submit"]');
+    const tgInput = form.querySelector('#telegramInput');
+
+    // Auto-prefix @ on Telegram field
+    if (tgInput) {
+      const ensureAt = () => {
+        const v = tgInput.value;
+        if (v.length === 0) return;
+        if (v[0] !== '@') tgInput.value = '@' + v.replace(/^@+/, '');
+      };
+      tgInput.addEventListener('focus', () => {
+        if (!tgInput.value) tgInput.value = '@';
+        requestAnimationFrame(() => {
+          const end = tgInput.value.length;
+          try { tgInput.setSelectionRange(end, end); } catch (_) {}
+        });
+      });
+      tgInput.addEventListener('input', ensureAt);
+      tgInput.addEventListener('blur', () => {
+        if (tgInput.value === '@') tgInput.value = '';
+      });
+    }
 
     const buildMessage = (data) => {
       const lines = [
         '📨 New brief from reeve.agency',
         '',
-        `Name: ${data.name || '—'}`,
+        `Telegram: ${data.telegram || '—'}`,
         `Email: ${data.email || '—'}`,
         `Company: ${data.company || '—'}`,
         `Budget: ${data.budget || '—'}`,
@@ -303,7 +323,6 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      thanks.hidden = true;
       error.hidden = true;
       if (!form.reportValidity()) return;
 
@@ -334,8 +353,7 @@
         const json = await res.json().catch(() => ({}));
         if (!res.ok || json.ok === false) throw new Error(json.description || res.statusText);
 
-        thanks.hidden = false;
-        button.textContent = 'Sent';
+        button.textContent = originalLabel;
         form.reset();
         // reset custom select to first option
         form.querySelectorAll('[data-select]').forEach((sel) => {
@@ -349,6 +367,7 @@
             if (hidden) hidden.value = first.dataset.value || first.textContent;
           }
         });
+        openModal('sent');
       } catch (err) {
         console.error('Telegram send failed:', err);
         error.hidden = false;
