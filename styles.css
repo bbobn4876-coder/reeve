@@ -943,6 +943,15 @@ body { transition: padding-top 0.4s ease; }
   color: var(--violet-soft);
   font-size: 14px;
 }
+.form-error {
+  grid-column: 1 / -1;
+  padding: 12px 16px;
+  background: rgba(255,80,80,0.10);
+  border: 1px solid rgba(255,80,80,0.35);
+  border-radius: 10px;
+  color: #ffb3b3;
+  font-size: 14px;
+}
 
 /* Footer */
 .site-footer {

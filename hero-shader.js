@@ -263,6 +263,96 @@
     }
   });
 
+  // Contact form → Telegram
+  // The bot token and chat id live in window.REEVE_CONFIG, loaded from
+  // config.js (see config.example.js). config.js is gitignored so the
+  // token never lands in the repository. Even so, once the page is live
+  // any visitor can read the token from DevTools — for a real deployment
+  // move this sendMessage call behind a serverless proxy that holds the
+  // token server-side, and rotate the token via @BotFather.
+  const cfg = (window.REEVE_CONFIG || {});
+  const TG_BOT_TOKEN = cfg.TG_BOT_TOKEN || '';
+  const TG_CHAT_ID = cfg.TG_CHAT_ID || '';
+
+  const form = document.getElementById('contactForm');
+  if (form) {
+    const thanks = form.querySelector('.form-thanks');
+    const error = form.querySelector('.form-error');
+    const button = form.querySelector('button[type="submit"]');
+
+    const buildMessage = (data) => {
+      const lines = [
+        '📨 New brief from reeve.agency',
+        '',
+        `Name: ${data.name || '—'}`,
+        `Email: ${data.email || '—'}`,
+        `Company: ${data.company || '—'}`,
+        `Budget: ${data.budget || '—'}`,
+        '',
+        'Message:',
+        data.message || '—',
+      ];
+      return lines.join('\n');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      thanks.hidden = true;
+      error.hidden = true;
+      if (!form.reportValidity()) return;
+
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+      button.disabled = true;
+      const originalLabel = button.textContent;
+      button.textContent = 'Sending…';
+
+      if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
+        console.warn('REEVE_CONFIG is missing — create config.js with TG_BOT_TOKEN and TG_CHAT_ID.');
+        error.hidden = false;
+        button.disabled = false;
+        button.textContent = originalLabel;
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TG_CHAT_ID,
+            text: buildMessage(data),
+            disable_web_page_preview: true,
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || json.ok === false) throw new Error(json.description || res.statusText);
+
+        thanks.hidden = false;
+        button.textContent = 'Sent';
+        form.reset();
+        // reset custom select to first option
+        form.querySelectorAll('[data-select]').forEach((sel) => {
+          const opts = sel.querySelectorAll('.select-menu li');
+          opts.forEach((o) => o.classList.remove('is-selected'));
+          const first = opts[0];
+          if (first) {
+            first.classList.add('is-selected');
+            sel.querySelector('.select-value').textContent = first.dataset.value || first.textContent;
+            const hidden = sel.querySelector('input[type="hidden"]');
+            if (hidden) hidden.value = first.dataset.value || first.textContent;
+          }
+        });
+      } catch (err) {
+        console.error('Telegram send failed:', err);
+        error.hidden = false;
+        button.textContent = originalLabel;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
   // Floating header on scroll (hysteresis to avoid jitter, rAF-throttled)
   const header = document.getElementById('siteHeader');
   if (header) {

@@ -367,26 +367,26 @@
       <div class="contact-meta">
         <div>
           <div class="meta-label">Email</div>
-          <a href="mailto:hello@reeve.agency">hello@reeve.agency</a>
+          <a href="mailto:contact.reeveagency@gmail.com">contact.reeveagency@gmail.com</a>
         </div>
         <div>
           <div class="meta-label">Telegram</div>
-          <a href="#">@reeveagency</a>
+          <a href="https://t.me/reeveagency" target="_blank" rel="noopener">@reeveagency</a>
         </div>
       </div>
     </div>
-    <form class="contact-form" onsubmit="event.preventDefault(); this.querySelector('.form-thanks').hidden = false; this.querySelector('button').textContent = 'Sent';">
+    <form class="contact-form" id="contactForm" novalidate>
       <label>
         <span>Your name</span>
-        <input type="text" required placeholder="Alex Morgan" />
+        <input type="text" name="name" required placeholder="Alex Morgan" />
       </label>
       <label>
         <span>Work email</span>
-        <input type="email" required placeholder="alex@brand.com" />
+        <input type="email" name="email" required placeholder="alex@brand.com" />
       </label>
       <label>
         <span>Company</span>
-        <input type="text" placeholder="Brand or operator" />
+        <input type="text" name="company" placeholder="Brand or operator" />
       </label>
       <div class="field">
         <span class="field-label">Budget</span>
@@ -406,10 +406,11 @@
       </div>
       <label class="full">
         <span>Tell us about the campaign</span>
-        <textarea rows="4" placeholder="Markets, product, timing, anything you want us to know."></textarea>
+        <textarea name="message" rows="4" placeholder="Markets, product, timing, anything you want us to know."></textarea>
       </label>
       <button type="submit" class="btn btn-primary">Send the brief</button>
       <div class="form-thanks" hidden>Thanks — we'll be in touch within one business day.</div>
+      <div class="form-error" hidden>Something went wrong. Please try again or email us directly.</div>
     </form>
   </div>
 </section>
@@ -435,8 +436,8 @@
       </div>
       <div>
         <div class="footer-title">Contact</div>
-        <a href="mailto:hello@reeve.agency">hello@reeve.agency</a>
-        <a href="#">Telegram</a>
+        <a href="mailto:contact.reeveagency@gmail.com">contact.reeveagency@gmail.com</a>
+        <a href="https://t.me/reeveagency" target="_blank" rel="noopener">Telegram</a>
         <a href="#">LinkedIn</a>
       </div>
       <div>
@@ -476,7 +477,7 @@
       <h3>Retention and sharing</h3>
       <p>We keep enquiry data for up to 24 months, then delete it if we haven't started work together. We do not sell your data. We share it only with vetted subprocessors that help us run the business (email, hosting, analytics).</p>
       <h3>Your rights</h3>
-      <p>You can request access, correction or deletion of your data at any time by writing to <a href="mailto:hello@reeve.agency">hello@reeve.agency</a>.</p>
+      <p>You can request access, correction or deletion of your data at any time by writing to <a href="mailto:contact.reeveagency@gmail.com">contact.reeveagency@gmail.com</a>.</p>
     </div>
   </div>
 </div>
@@ -520,11 +521,12 @@
       <h3>Managing cookies</h3>
       <p>You can clear or block cookies through your browser settings. Doing so may disable parts of the site (e.g. remembered form input).</p>
       <h3>Third parties</h3>
-      <p>Some cookies are set by our subprocessors (hosting, analytics). Their policies apply to those cookies. Contact us at <a href="mailto:hello@reeve.agency">hello@reeve.agency</a> if you want the current list.</p>
+      <p>Some cookies are set by our subprocessors (hosting, analytics). Their policies apply to those cookies. Contact us at <a href="mailto:contact.reeveagency@gmail.com">contact.reeveagency@gmail.com</a> if you want the current list.</p>
     </div>
   </div>
 </div>
 
+<script src="config.js" onerror="this.remove()"></script>
 <script src="hero-shader.js"></script>
 </body>
 </html>

@@ -1,0 +1,3 @@
+# Local runtime config with secrets (Telegram bot token, chat id).
+# Copy config.example.js → config.js and fill it in per environment.
+config.js
