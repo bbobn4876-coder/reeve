@@ -334,6 +334,7 @@
 
       if (!TG_BOT_TOKEN || !TG_CHAT_ID) {
         console.warn('REEVE_CONFIG is missing — create config.js with TG_BOT_TOKEN and TG_CHAT_ID.');
+        error.textContent = 'Config is missing. Create config.js with TG_BOT_TOKEN and TG_CHAT_ID.';
         error.hidden = false;
         button.disabled = false;
         button.textContent = originalLabel;
@@ -370,6 +371,8 @@
         openModal('sent');
       } catch (err) {
         console.error('Telegram send failed:', err);
+        error.textContent = 'Send failed: ' + (err && err.message ? err.message : 'unknown error') +
+          '. Please email us directly.';
         error.hidden = false;
         button.textContent = originalLabel;
       } finally {
