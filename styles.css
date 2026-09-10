@@ -1082,7 +1082,6 @@ body { transition: padding-top 0.4s ease; }
 .mobile-menu.is-open .mobile-link:nth-child(2) { transition-delay: 0.10s; }
 .mobile-menu.is-open .mobile-link:nth-child(3) { transition-delay: 0.15s; }
 .mobile-menu.is-open .mobile-link:nth-child(4) { transition-delay: 0.20s; }
-.mobile-menu.is-open .mobile-link:nth-child(5) { transition-delay: 0.25s; }
 .mobile-cta {
   margin-top: 20px;
   padding: 18px 24px;
