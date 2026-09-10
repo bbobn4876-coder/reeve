@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#06060a" />
+
+<title>High Scores — Reeve Agency</title>
+<meta name="description" content="Reeve Agency High Scores — biggest winners, top wagers and luckiest wins across our creator campaigns." />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+
+<link rel="canonical" href="https://reeve.agency/high-scores.html" />
+<link rel="icon" type="image/svg+xml" href="logo/logo.svg" />
+<link rel="apple-touch-icon" href="logo/logo.svg" />
+<link rel="manifest" href="manifest.webmanifest" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Reeve Agency" />
+<meta property="og:url" content="https://reeve.agency/high-scores.html" />
+<meta property="og:title" content="High Scores — Reeve Agency" />
+<meta property="og:description" content="Live leaderboard of biggest winners, top wagers and luckiest wins across Reeve creator campaigns." />
+<meta property="og:image" content="https://reeve.agency/logo/logo.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+<link rel="stylesheet" href="styles.css" />
+
+<style>
+  /* High Scores page — scoped */
+  .hs-main { padding: 0 0 80px; }
+  .hs-container { max-width: 1280px; margin: 0 auto; padding: 24px 32px 0; }
+  .hs-top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap; margin-bottom: 22px;
+  }
+  .hs-title { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+
+  .hs-periods {
+    display: inline-flex;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(15,15,24,0.6);
+    border: 1px solid var(--line);
+    gap: 2px;
+  }
+  .hs-period {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--muted-2);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+  }
+  .hs-period:hover { color: #fff; }
+  .hs-period.is-active {
+    background: rgba(124,92,255,0.18);
+    color: #fff;
+  }
+
+  .hs-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) 340px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .hs-board {
+    background: rgba(15,15,24,0.55);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 8px;
+  }
+
+  .hs-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 12px;
+    background: rgba(6,6,10,0.55);
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .hs-tabs::-webkit-scrollbar { display: none; }
+  .hs-tab {
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: var(--muted-2);
+    font-family: inherit;
+    font-size: 13.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  .hs-tab:hover { color: #fff; }
+  .hs-tab.is-active { background: rgba(124,92,255,0.22); color: #fff; }
+
+  .hs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14.5px;
+  }
+  .hs-table thead th {
+    text-align: left;
+    padding: 12px 20px;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 12.5px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hs-table thead th.hs-right { text-align: right; }
+  .hs-table tbody td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    color: #d5d5e0;
+  }
+  .hs-table tbody tr:last-child td { border-bottom: none; }
+  .hs-table tbody tr { transition: background 0.15s; }
+  .hs-table tbody tr:hover { background: rgba(124,92,255,0.04); cursor: pointer; }
+  .hs-table .hs-rank {
+    font-family: var(--mono);
+    color: var(--muted);
+    width: 60px;
+  }
+  .hs-table .hs-player { font-weight: 500; color: #fff; }
+  .hs-table .hs-profit {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #4ade80;
+    font-weight: 500;
+  }
+
+  .hs-pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 12px 6px;
+    flex-wrap: wrap;
+  }
+  .hs-page {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted-2);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .hs-page:hover { color: #fff; border-color: var(--line-2); }
+  .hs-page.is-active {
+    background: rgba(124,92,255,0.22);
+    border-color: rgba(124,92,255,0.45);
+    color: #fff;
+  }
+  .hs-page-size {
+    margin-left: auto;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* Right sidebar */
+  .hs-side { display: grid; gap: 14px; }
+  .hs-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .hs-search svg {
+    position: absolute;
+    left: 14px;
+    color: var(--muted);
+  }
+  .hs-search input {
+    width: 100%;
+    background: rgba(15,15,24,0.6);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px 12px 40px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14.5px;
+    transition: border-color 0.2s;
+  }
+  .hs-search input:focus { outline: none; border-color: var(--violet-1); }
+
+  .hs-profile {
+    background: rgba(15,15,24,0.55);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 22px;
+  }
+  .hs-profile-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .hs-trophy {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(124,92,255,0.15);
+    color: var(--violet-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hs-profile-name { font-size: 20px; font-weight: 600; }
+  .hs-profile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .hs-profile li {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px;
+    color: var(--muted-2);
+  }
+  .hs-profile-rank { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .hs-profile-rank--muted { color: var(--muted); font-weight: 400; }
+
+  @media (max-width: 900px) {
+    .hs-grid { grid-template-columns: 1fr; }
+    .hs-side { order: -1; }
+    .hs-top { flex-direction: column; align-items: flex-start; }
+    .hs-periods { width: 100%; overflow-x: auto; }
+  }
+  @media (max-width: 720px) {
+    .hs-container { padding: 16px 20px 0; }
+    .hs-table thead { display: none; }
+    .hs-table tbody td {
+      display: block; padding: 4px 8px;
+      border: none;
+    }
+    .hs-table tbody tr {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      align-items: center;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
+      gap: 10px;
+    }
+    .hs-table .hs-profit { text-align: right; }
+    .hs-pagination { gap: 6px; }
+    .hs-page { min-width: 36px; height: 36px; padding: 0 10px; font-size: 13px; }
+    .hs-page-size { display: none; }
+  }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "url": "https://reeve.agency/high-scores.html",
+  "name": "High Scores — Reeve Agency",
+  "description": "Leaderboard of biggest winners, top wagers and luckiest wins across Reeve Agency creator campaigns.",
+  "isPartOf": { "@type": "WebSite", "url": "https://reeve.agency/", "name": "Reeve Agency" },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://reeve.agency/" },
+      { "@type": "ListItem", "position": 2, "name": "High Scores", "item": "https://reeve.agency/high-scores.html" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href="/" aria-label="Reeve Agency — home">
+      <span class="logo-mark" aria-hidden="true">
+        <img src="logo/logo.svg" alt="" width="34" height="34" onerror="this.remove()" />
+      </span>
+      <span class="logo-text"><b>REEVE</b> agency</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-link" href="/#services">Services</a>
+      <a class="nav-link" href="/#sectors">Sectors</a>
+      <a class="nav-link" href="/#process">Process</a>
+      <a class="nav-link" href="/#about">About</a>
+      <a class="nav-link" href="/high-scores.html" aria-current="page">High Scores</a>
+    </nav>
+    <a href="/#contact" class="btn btn-primary header-cta">Start a campaign</a>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <a class="mobile-link" href="/#services">Services</a>
+    <a class="mobile-link" href="/#sectors">Sectors</a>
+    <a class="mobile-link" href="/#process">Process</a>
+    <a class="mobile-link" href="/#about">About</a>
+    <a class="mobile-link" href="/high-scores.html" aria-current="page">High Scores</a>
+    <a href="/#contact" class="btn btn-primary mobile-cta">Start a campaign</a>
+  </div>
+</nav>
+
+<main id="main" class="hs-main">
+  <div class="hs-container">
+    <div class="hs-top">
+      <h1 class="hs-title">High Scores</h1>
+      <div class="hs-periods" role="tablist" aria-label="Time period">
+        <button type="button" class="hs-period is-active" role="tab" aria-selected="true">All Time</button>
+        <button type="button" class="hs-period" role="tab" aria-selected="false">Last Month</button>
+        <button type="button" class="hs-period" role="tab" aria-selected="false">Last Week</button>
+        <button type="button" class="hs-period" role="tab" aria-selected="false">Last Day</button>
+      </div>
+    </div>
+
+    <div class="hs-grid">
+      <section class="hs-board" aria-label="Leaderboard">
+        <div class="hs-tabs" role="tablist" aria-label="Leaderboard category">
+          <button type="button" class="hs-tab is-active" role="tab" aria-selected="true">Biggest Winners</button>
+          <button type="button" class="hs-tab" role="tab" aria-selected="false">Biggest Losers</button>
+          <button type="button" class="hs-tab" role="tab" aria-selected="false">Top Wagers</button>
+          <button type="button" class="hs-tab" role="tab" aria-selected="false">Biggest Wins</button>
+          <button type="button" class="hs-tab" role="tab" aria-selected="false">Biggest Losses</button>
+          <button type="button" class="hs-tab" role="tab" aria-selected="false">Luckiest Wins</button>
+        </div>
+
+        <table class="hs-table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Player</th>
+              <th scope="col" class="hs-right">Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="hs-rank">01</td><td class="hs-player">jarik</td><td class="hs-profit">$12,341,874.77</td></tr>
+            <tr><td class="hs-rank">02</td><td class="hs-player">PrayingMantis</td><td class="hs-profit">$11,460,127.74</td></tr>
+            <tr><td class="hs-rank">03</td><td class="hs-player">signature</td><td class="hs-profit">$7,683,143.74</td></tr>
+            <tr><td class="hs-rank">04</td><td class="hs-player">ggg1</td><td class="hs-profit">$4,768,959.00</td></tr>
+            <tr><td class="hs-rank">05</td><td class="hs-player">i2p666</td><td class="hs-profit">$4,040,090.81</td></tr>
+            <tr><td class="hs-rank">06</td><td class="hs-player">punkism</td><td class="hs-profit">$3,552,268.15</td></tr>
+            <tr><td class="hs-rank">07</td><td class="hs-player">Duteren111</td><td class="hs-profit">$2,565,356.31</td></tr>
+            <tr><td class="hs-rank">08</td><td class="hs-player">FloatBet</td><td class="hs-profit">$2,201,181.38</td></tr>
+            <tr><td class="hs-rank">09</td><td class="hs-player">manto3</td><td class="hs-profit">$2,110,229.76</td></tr>
+            <tr><td class="hs-rank">10</td><td class="hs-player">kidcudifan</td><td class="hs-profit">$1,918,222.06</td></tr>
+          </tbody>
+        </table>
+
+        <nav class="hs-pagination" aria-label="Leaderboard pages">
+          <button type="button" class="hs-page">First</button>
+          <button type="button" class="hs-page is-active" aria-current="page">1</button>
+          <button type="button" class="hs-page">2</button>
+          <button type="button" class="hs-page">3</button>
+          <button type="button" class="hs-page">4</button>
+          <button type="button" class="hs-page">5</button>
+          <button type="button" class="hs-page">Last</button>
+          <select class="hs-page-size" aria-label="Rows per page">
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+          </select>
+        </nav>
+      </section>
+
+      <aside class="hs-side" aria-label="Player">
+        <label class="hs-search">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" placeholder="Search users…" aria-label="Search users" />
+        </label>
+        <div class="hs-profile">
+          <div class="hs-profile-head">
+            <span class="hs-trophy" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M17 4h3v3a4 4 0 0 1-4 4"/><path d="M7 4H4v3a4 4 0 0 0 4 4"/><path d="M17 4H7v6a5 5 0 0 0 10 0V4z"/></svg>
+            </span>
+            <div class="hs-profile-name">jarik</div>
+          </div>
+          <ul>
+            <li><span>Top Wagers</span><span class="hs-profile-rank">#2</span></li>
+            <li><span>Biggest Winners</span><span class="hs-profile-rank">#1</span></li>
+            <li><span>Biggest Losers</span><span class="hs-profile-rank hs-profile-rank--muted">Not Ranked</span></li>
+            <li><span>Biggest Wins</span><span class="hs-profile-rank">#2</span></li>
+            <li><span>Biggest Losses</span><span class="hs-profile-rank">#104</span></li>
+            <li><span>Luckiest Wins</span><span class="hs-profile-rank">#7294</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="logo" href="/" aria-label="Reeve Agency — home">
+        <span class="logo-mark" aria-hidden="true">
+          <img src="logo/logo.svg" alt="" width="34" height="34" onerror="this.remove()" />
+        </span>
+        <span class="logo-text"><b>REEVE</b> agency</span>
+      </a>
+      <p>Influencer marketing and media buying, built for iGaming.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2 class="footer-title">Company</h2>
+        <a href="/#about">About</a>
+        <a href="/#services">Services</a>
+        <a href="/#sectors">Sectors</a>
+        <a href="/#process">Process</a>
+        <a href="/high-scores.html" aria-current="page">High Scores</a>
+      </div>
+      <div>
+        <h2 class="footer-title">Contact</h2>
+        <a href="mailto:contact.reeveagency@gmail.com">contact.reeveagency@gmail.com</a>
+        <a href="https://t.me/reeveagency" target="_blank" rel="noopener">Telegram</a>
+      </div>
+      <div>
+        <h2 class="footer-title">Legal</h2>
+        <a href="/#" data-modal="privacy">Privacy</a>
+        <a href="/#" data-modal="terms">Terms</a>
+        <a href="/#" data-modal="cookies">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 Reeve Agency. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  // Local, minimal interactivity for this page (tabs + burger).
+  (function() {
+    document.querySelectorAll('.hs-tabs, .hs-periods').forEach((group) => {
+      const items = group.querySelectorAll('button');
+      items.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          items.forEach((i) => { i.classList.remove('is-active'); i.setAttribute('aria-selected', 'false'); });
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-selected', 'true');
+        });
+      });
+    });
+
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('mobileMenu');
+    if (burger && menu) {
+      burger.addEventListener('click', () => {
+        const open = !menu.classList.contains('is-open');
+        document.body.classList.toggle('menu-open', open);
+        menu.classList.toggle('is-open', open);
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+        menu.classList.remove('is-open');
+        menu.setAttribute('aria-hidden', 'true');
+        burger.setAttribute('aria-expanded', 'false');
+      }));
+    }
+
+    const header = document.getElementById('siteHeader');
+    if (header) {
+      const enterAt = 60, leaveAt = 20;
+      let floating = false, ticking = false;
+      const update = () => {
+        const y = window.scrollY;
+        if (!floating && y > enterAt) { floating = true; header.classList.add('is-floating'); }
+        else if (floating && y < leaveAt) { floating = false; header.classList.remove('is-floating'); }
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+    }
+  })();
+</script>
+</body>
+</html>
